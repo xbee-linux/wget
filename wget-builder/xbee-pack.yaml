@@ -1,0 +1,27 @@
+schema-version: 1.0
+
+type: builder
+
+const:
+  srcDir: /usr/src
+  exportDir: /opt/wget
+
+dependencies:
+  - pkg-config
+  - openssl
+
+provision:
+  - url:
+      from: https://ftp.gnu.org/gnu/wget/wget-{% version %}.tar.gz
+      todir:  /usr/src
+
+
+build:
+  - shell:
+      cmds:
+        - ./configure --prefix=/usr --sysconfdir=/etc --with-ssl=openssl
+        - make
+        - make install DESTDIR={% exportDir %}
+      directory: /usr/src/wget-{% version %}
+  - export: "{% exportDir %}"
+
