@@ -1,5 +1,11 @@
 schema-version: 1.0
 
+type: builder
+
+dependencies:
+  - pkg-config
+  - openssl
+
 description: |
   The Wget package contains a utility useful for non-interactive downloading of files from the Web.
   Installed Program: wget
@@ -8,15 +14,21 @@ description: |
   Short Descriptions
     wget: retrieves files from the Web using the HTTP, HTTPS and FTP protocols. It is designed to be non-interactive, for background or unattended operations
 
-builder: ./wget-builder
-
-var:
+in:
   version: 1.21
 
 provision:
-  - copy:
-      builder: wget
-      todir: /
+  - url:
+      from: https://ftp.gnu.org/gnu/wget/wget-{% version %}.tar.gz
+      todir: "{% xbeeSrc %}"
 
+
+build:
+  - shell:
+      cmds:
+        - ./configure --prefix=/usr --sysconfdir=/etc --with-ssl=openssl
+        - make
+        - make install DESTDIR={% xbeeOut %}
+      directory: "{% xbeeSrc %}/wget-{% version %}"
 
 
