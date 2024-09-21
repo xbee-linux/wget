@@ -2,8 +2,9 @@ schema-version: 1.0
 
 type: builder
 
+builder: pkg-config
+
 dependencies:
-  - pkg-config
   - openssl
 
 description: |
@@ -14,13 +15,14 @@ description: |
   Short Descriptions
     wget: retrieves files from the Web using the HTTP, HTTPS and FTP protocols. It is designed to be non-interactive, for background or unattended operations
 
-in:
-  version: 1.21
+var:
+  xbee:
+    version: 1.21
 
 provision:
   - url:
-      from: https://ftp.gnu.org/gnu/wget/wget-{% version %}.tar.gz
-      todir: "{% xbeeSrc %}"
+      from: https://ftp.gnu.org/gnu/wget/wget-{{ .xbee.version }}.tar.gz
+      todir: "{{ .xbee.src }}"
 
 
 build:
@@ -28,7 +30,7 @@ build:
       cmds:
         - ./configure --prefix=/usr --sysconfdir=/etc --with-ssl=openssl
         - make
-        - make install DESTDIR={% xbeeOut %}
-      directory: "{% xbeeSrc %}/wget-{% version %}"
+        - make install DESTDIR={{ .xbee.out }}
+      directory: "{{ .xbee.src }}/wget-{{ .xbee.version }}"
 
 
