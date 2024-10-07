@@ -3,7 +3,7 @@ schema-version: 1.0
 
 builder: ./wget-builder
 
-dependencies:
+dependency:
   - openssl
 
 var:

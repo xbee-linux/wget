@@ -1,11 +1,8 @@
 schema-version: 1.0
 
-type: builder
-
 builder: pkg-config
 
-dependencies:
-  - openssl
+dependency: openssl
 
 description: |
   The Wget package contains a utility useful for non-interactive downloading of files from the Web.
